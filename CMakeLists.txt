@@ -4,10 +4,31 @@
 cmake_minimum_required(VERSION 3.9)
 project(uzume_utau)
 
-set(CMAKE_CXX_FLAGS "-std=c++11 -Wall")
-set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0 -pg")
-set(CMAKE_CXX_FLAGS_RELEASE "-O2 -s")
-
-file(GLOB UTAU_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} *.cpp)
-
-add_library(uzume_utau ${UTAU_SOURCES})
+add_library(uzume_utau STATIC)
+target_compile_features(uzume_utau
+        PRIVATE
+        cxx_std_11)
+target_compile_options(uzume_utau
+        PRIVATE
+        -Wall -Wextra -Wno-long-long -pedantic)
+target_sources(uzume_utau
+        PRIVATE
+        Affix.cpp
+        Character.cpp
+        Voicebank.cpp
+        WaveLabel.cpp)
+set_property(TARGET uzume_utau
+        PROPERTY PUBLIC_HEADER
+        Affix.hpp
+        Character.hpp
+        Voicebank.hpp
+        WaveLabel.hpp)
+target_include_directories(uzume_utau
+        INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<INSTALL_INTERFACE:include>)
+install(TARGETS uzume_utau
+        EXPORT libuzume_utau
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        PUBLIC_HEADER DESTINATION include)

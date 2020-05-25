@@ -14,7 +14,6 @@ WaveLabel::WaveLabel(std::string filename, std::string name, double msLeftBlank,
 namespace {
     WaveLabel parse(const std::string &line) {
         std::string filename, name;
-        double msLeftBlank = 0.0, msConsonant = 0.0, msRightBlank = 0.0, msPreUtterance = 0.0, msOverlap = 0.0;
 
         std::stringstream s1(line);
         std::string buf;
